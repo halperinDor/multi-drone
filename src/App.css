@@ -1,0 +1,58 @@
+.App {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #282c34;
+  color: white;
+}
+
+
+.App-header {
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+
+}
+
+.layout{
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  grid-gap: 20px;
+}
+
+
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+
+.list_of_drones {
+  float: left;
+  width: 8%;
+  padding: 10px;
+ 
+}
+
+
+.map {
+  float:left;
+  width: 50%;
+  padding: 10px;
+  
+  
+}
+
+.details{
+  float: left;
+  width: 38%;
+}
+
+.commands{
+  padding-bottom: 30px;
+  height:fit-content;
+  float: left;
+  width: 38%;
+}
