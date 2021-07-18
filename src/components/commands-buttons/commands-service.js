@@ -1,25 +1,29 @@
-const TOKEN = "aad9d647bf86fff01778571c1e02fb6ff62fceaf";
+//const TOKEN = "aad9d647bf86fff01778571c1e02fb6ff62fceaf";
 
 
 export class COMMANDSAPI {
 
-    static sendToDrone(droneName, command, alt){
+    static sendToDrone(droneName, _command, alt, token){
+
+       
 
         var data;
 
         if (alt === -1){
 
-            data = JSON.stringify({name: droneName, Command: command});
+            data = JSON.stringify({name: droneName, command: _command});
         }
         else{
-            data = JSON.stringify({name: droneName, Command: "Takeoff" , alt: alt})
+            data = JSON.stringify({name: droneName, command: "Takeoff" , alt: alt})
         }
+
+        //alert(data);
 
         return fetch( "http://127.0.0.1:8000/api/commands/", {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${TOKEN}`
+                'Authorization': `Token ${token}`
             },
             body: data
         }).then(resp => resp.json())

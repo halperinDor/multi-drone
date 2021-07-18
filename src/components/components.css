@@ -13,15 +13,109 @@
     color:#00FF00;
 }
 
+.sr-only {
+    display: none;
+  }
 
+.text-left{
+    color:black;
+    background-color: rgb(17, 176, 197);
+    border-style: solid;
+    border-color: black;
+    border: none;
+    border-radius: 12px;
+   
+}
 
+.mission-text{
+    /* text-align: center; */
+    color:black;
+    background-color: white;
+    height: 620px;
+    scroll-margin-left: auto;
+    overflow-y: auto; 
+    border-radius: 20%;
+    border: none;
+    border-radius: 12px;
+   
+   
+     /* direction:unset; */
+}
 
+.lable-drone{
+    font-size: 150%;
+    /* -webkit-text-stroke: blue; width and color */
+    text-decoration: underline;
+    font-family: sans;
+    border: none;
+    border-radius: 12px;
 
     
     
+}
+   
+.my-back{
+    /* background-color: #e7be1a; */
+    padding:3%;
+    margin-right: 2%;
+    background-color: rgb(61, 10, 61);
+    border-width: 40px;
+    /* padding-top: 15%; */
+    border: none;
+    border-radius: 12px;
+    
+}
+
+.my-back-empty{
+    /* background-color: #e7be1a; */
+    padding:3%;
+    margin-right: 2%;
+    /* margin-top: 10%; */
+    overflow: auto;
+    background-color: rgb(61, 10, 61);
+    border-width: 40px;
+    /* padding-top: 15%; */
+    border: none;
+    border-radius: 12px;
+    
+}
+
+.button-empty{
+    background-color: whitesmoke;
+    font-size: 30px;
+   
+    
+   
   
+}
 
 
+
+.my-map{
+    float: left;
+    width: 72%;
+    padding: 10px;
+    background-color: rgb(61, 10, 61);
+    border: none;
+    border-radius: 12px;
+   
+   
+   
+  }
+  
+  
+  .my-mission{
+    float:left;
+    width: 28%;
+    padding: 10px;
+   
+    /* background-color: rgba(46, 38, 38, 0.76); */
+    border: none;
+    border-radius: 12px;
+    
+    
+  }
+  
 
 
 

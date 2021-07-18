@@ -4,12 +4,24 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import { COMMANDSAPI } from './commands-service'
+import { useCookies } from 'react-cookie';
 
 
-export default function TakeOffButton(takeoff, props){
+export default function TakeOffButton(props){
 
-    const takeOffCommand = takeoff => evt => {
-        COMMANDSAPI.sendToDrone(props.drone.name, "Takeoff", value)
+    const [token] = useCookies(['mr-token']);
+
+    var name = "";
+
+  
+    if(props.name){
+        var name = props.name
+        //console.log("my name is: ",name);
+    }
+
+
+    const takeOffCommand = props => evt => {
+        COMMANDSAPI.sendToDrone(name, "Takeoff", value, token['mr-token'])
 
     }
 

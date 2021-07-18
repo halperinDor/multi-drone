@@ -5,12 +5,30 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Button from 'react-bootstrap/Button'
 import { COMMANDSAPI } from './commands-service'
 import { Form } from 'react-bootstrap';
+import { useCookies } from 'react-cookie';
 
 
-export default function ModeButton(mode, props){
+export default function ModeButton(props){
 
-    const modeCommand = mode => evt => {
-        COMMANDSAPI.sendToDrone(props.drone.name, value, -1)
+  const [token] = useCookies(['mr-token']);
+
+
+ var name = "";
+
+  
+  if(props.name){
+    var name = props.name
+    //console.log("my name is: ",name);
+  }
+
+  //console.log("new name = ", name);
+ 
+
+
+    const modeCommand = props => evt => {
+
+        COMMANDSAPI.sendToDrone(name, value, -1, token['mr-token'])
+      
     }
 
     const [value,setValue]=useState('');
@@ -26,6 +44,7 @@ export default function ModeButton(mode, props){
             <Form.Row>
               
                 <DropdownButton 
+                className='mr-1'
                 type='text'
                 title={"set mode: " + value}
                 variant="success"
@@ -38,7 +57,7 @@ export default function ModeButton(mode, props){
                         <Dropdown.Item eventKey="STABILIZE">STABILIZE</Dropdown.Item>
                 </DropdownButton>
                 
-                <Button  variant="success" onClick={modeCommand()} >SEND</Button>{' '}
+              <Button  variant="success" onClick={modeCommand()} >SEND</Button>{' '}
             </Form.Row>
       </Form>
       </div>

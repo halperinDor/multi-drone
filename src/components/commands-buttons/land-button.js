@@ -2,15 +2,28 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button'
 import { COMMANDSAPI } from './commands-service'
+import { useCookies } from 'react-cookie';
 
 
-export default function LandButton(arm, props){
+export default function LandButton(props){
 
-    const landCommand = arm => evt => {
-        COMMANDSAPI.sendToDrone(props.drone.name, "LAND", -1)
+    const [token]= useCookies(['mr-token']);
+
+    var name= "";
+
+
+    if(props.name){
+        var name = props.name
+        //console.log("my name is: ",name);
+      }
+    
+      //console.log("new name = ", name);
+
+    const landCommand = props => evt => {
+        COMMANDSAPI.sendToDrone(name, "LAND", -1, token['mr-token']);
     }
 
-    if(!COMMANDSAPI.IsOn(arm)){
+    if(!COMMANDSAPI.IsOn(props.arm)){
 
         return (
             <div>

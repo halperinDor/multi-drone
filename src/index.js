@@ -2,14 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Auth from './components/auth';
 import reportWebVitals from './reportWebVitals';
+import { Route, BrowserRouter } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+//export const TokenContext = createContext(null);
+
+function Router(){
+
+  //const TOKEN = "aad9d647bf86fff01778571c1e02fb6ff62fceaf";
+  //const [token, setToken] = useState('');
+ 
+  return(
+    <React.StrictMode>
+      <CookiesProvider>
+        <BrowserRouter>
+            <Route exact path="/" component={Auth}/>
+            <Route exact path="/drones" component={App}/>
+        </BrowserRouter> 
+      </CookiesProvider>
+    </React.StrictMode>
+  )
+}
+
+ReactDOM.render( <Router/>,document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -1,14 +1,47 @@
 .App {
   padding: 20px;
   min-height: 100vh;
-  background-color: #282c34;
-  color: white;
+   /* background-color: #282c34 ;   */
+  background-image:url('./Stellar.jpg');
+  /* background-color: white;   */
+  color: whitesmoke;
+  /* text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF; */
+  
+ 
 }
 
 
 .App-header {
   text-align: center;
   font-size: calc(10px + 2vmin);
+  font-style: italic;
+  /* text-shadow: 0 0 3px #000000, 0 0 5px #000000; */
+  text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+  /* text-shadow: 0 0 3px #631649, 0 0 5px #570957; */
+  margin: 0px auto;
+  text-decoration:underline;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI',
+   Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
+  
+  /* font-style: oblique;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+}
+
+.fa-sign-out-alt{
+  position: absolute;
+  top:2%;
+  right: 1%;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.fa-info-circle{
+  position: absolute;
+  top:6%;
+  right: 1%;
+  cursor: pointer;
+  font-size: 1.5rem;
 
 }
 
@@ -16,15 +49,23 @@
   display: grid;
   grid-template-columns: 2fr 2fr;
   grid-gap: 20px;
+  
 }
 
 
 
 /* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+.row{
+  /* content: ""; */
+  /* display: table; */
+  margin: auto;
+ 
+
+ 
+
+  
+
+  /* clear: both; */
 }
 
 
@@ -33,21 +74,36 @@
   float: left;
   width: 8%;
   padding: 10px;
+  background-color: rgba(46, 38, 38, 0.76);
+  border: none;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  
+ 
  
 }
 
 
 .map {
   float:left;
-  width: 50%;
+  width: 63%;
   padding: 10px;
+  background-color: rgba(46, 38, 38, 0.76);
   
   
 }
 
 .details{
   float: left;
-  width: 38%;
+  width: 29%;
+ 
+  background-color: rgba(46, 38, 38, 0.76);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  
+  
+ 
+  
 }
 
 .commands{
@@ -55,4 +111,27 @@
   height:fit-content;
   float: left;
   width: 38%;
+ 
 }
+
+
+.center{
+ margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(46, 38, 38, 0.76);
+  text-align: center;
+  
+  width: 30%;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  padding-bottom: 1%;
+
+}
+
+/* .c1{
+  margin-right: auto;
+  background-color: white;
+
+} */
