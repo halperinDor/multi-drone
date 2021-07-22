@@ -1,29 +1,26 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button'
-import { COMMANDSAPI } from '../commands-service'
+import { API } from '../../../rest-api-service';
 import { useCookies } from 'react-cookie';
 
 
 export default function StartMission(props){
 
-    const [token] = useCookies(['mr-token']);
+    const [token] = useCookies(['user-token']);
 
-    var name= "";
+    var droneName = "";
 
+    props.name? droneName = props.name: droneName=null;
 
-    if(props.name){
-        var name = props.name
-        //console.log("my name is: ",name);
-      }
     
-      //console.log("new name = ", name);
 
-    const startMissionCommand = props => evt => {
-        COMMANDSAPI.sendToDrone(name, "mission: start", -1, token['mr-token'])
+
+    const setStartMissionCommand = props => evt => {
+        API.sendToDrone(droneName, "mission: start", 0, token['user-token'])
     }
 
-    if(COMMANDSAPI.IsOn(props.arm)){
+    if(props.arm){
 
         return (
             <div>
@@ -36,7 +33,7 @@ export default function StartMission(props){
     }
     return (
         <div>
-            <Button onClick={startMissionCommand()} style={{cursor: "pointer"}}>
+            <Button onClick={setStartMissionCommand()} style={{cursor: "pointer"}}>
             Start Mission
             </Button>
         </div>

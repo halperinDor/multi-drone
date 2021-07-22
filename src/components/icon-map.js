@@ -2,7 +2,7 @@ import L from 'leaflet';
 import './my.jpg';
 
 const iconDrone = new L.Icon({
-    iconUrl: require('./my.jpg'),
+    iconUrl: require('../static/d-marker.jpg'),
     iconAnchor: null,
     popupAnchor: null,
     shadowUrl: null,

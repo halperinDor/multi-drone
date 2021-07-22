@@ -4,18 +4,17 @@
     height: 75vh;
 }
 
-.red{
-    color:#FF0000;
-    
-}
 
-.green{
-    color:#00FF00;
+.fa-times-circle{
+    color: red;
 }
-
-.sr-only {
-    display: none;
+.fa-check-circle{
+    color: #00FF00;
   }
+
+/* .sr-only {
+    display: none;
+  } */
 
 .text-left{
     color:black;
@@ -25,6 +24,14 @@
     border: none;
     border-radius: 12px;
    
+}
+
+.data-table{
+    background-color: #504c4c;
+    border: 1px solid black;
+    text-decoration:underline;
+    text-shadow: 0 0 3px #331010, 0 0 5px #0000FF;
+    
 }
 
 .mission-text{
@@ -42,17 +49,18 @@
      /* direction:unset; */
 }
 
-.lable-drone{
+/* .lable-drone{
     font-size: 150%;
     /* -webkit-text-stroke: blue; width and color */
-    text-decoration: underline;
+    /* text-decoration: underline;
     font-family: sans;
     border: none;
-    border-radius: 12px;
+    border-radius: 12px; */
 
     
     
-}
+/* } */
+ 
    
 .my-back{
     /* background-color: #e7be1a; */
@@ -80,14 +88,14 @@
     
 }
 
-.button-empty{
+/* .button-empty{
     background-color: whitesmoke;
     font-size: 30px;
    
     
    
   
-}
+} */
 
 
 
@@ -107,12 +115,14 @@
   .my-mission{
     float:left;
     width: 28%;
-    padding: 10px;
-   
-    /* background-color: rgba(46, 38, 38, 0.76); */
+     /* margin:1%;  */
+    padding: 10px;  
+    
+    background-color: rgb(61, 10, 61);
     border: none;
     border-radius: 12px;
     
+
     
   }
   

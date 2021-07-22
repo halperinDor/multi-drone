@@ -1,141 +1,137 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import DroneList from './components/drone-list';
-import DroneDetails from './components/drone-details';
-import MyMap from './components/leaf-map';
-import OptionsMenu from './components/options-menu';
-import { API } from './api-service'
-import icon from './drone.jpg';
-import { faSignOutAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import DroneDetails from './components/drone-data';
+import MyMap from './components/my-map';
+import ControlOptions from './components/control-options';
+import icon from './static/drone.jpg'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { useCookies } from 'react-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Example from './modal';
+import AppInfo from './components/app-info';
+import { API } from './rest-api-service';
+import styled from 'styled-components';
 
+const AppBack =styled.div`
+  padding: 20px;
+  min-height: 100vh;
+  background-color:#7a94ff;  
+  color: whitesmoke;
+`;
 
-// const queryClient = new QueryClient({
-//   defaultOptions: {
-//     queries: {
-//       refetchOnWindowFocus: true,
-//     },
-//   },
-// })
+const AppHeader = styled.header`
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+  font-style: italic;
+  text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+  margin: 0px auto;
+  text-decoration:underline;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI',
+  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
+`
 
+const RowTable = styled.div`
+  margin: auto;
+  padding: 20px;
+  height: 95vh;
+  background-color:#7a94ff;  
+  color: whitesmoke;
+`
 
-function CallData(setDrone ,token) {
-  var baseUrl = `http://127.0.0.1:8000/api/drones/` ;
+const LeftSide = styled.div`
+  float: left;
+  width: 8%;
+  height: 90vh;
+  padding: 10px;
+  background-color: rgba(46, 38, 38, 0.76);
+  border: none;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+`
+const Middle= styled.div`
+  float:left;
+  width: 63%;
+  min-height: 90vh;
+  padding: 10px;
+  background-color: rgba(46, 38, 38, 0.76);
+`
 
-  return useEffect(() => {
-
-   
-
-    const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
-      
-      fetch(`http://127.0.0.1:8000/api/drones/`, {
-        method: 'GET',
-        headers:{
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${token}`
-        }
-    },)
-    .then(resp => resp.json())
-    .then(resp => setDrone(resp))
-    .catch(error => console.log(error))
-                         
-    }, 100)
-  
-    return () => clearInterval(intervalId); //This is important
-    
-   
-  }, [baseUrl, useState])
-
-}
+const RightSide = styled.div`
+  float: left;
+  width: 29%;
+  height: 90vh;
+  background-color: rgba(46, 38, 38, 0.76);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+`
 
 export default function App() {
-  
+
   const [drones, setDrone] = useState([]);
 
   const [selectedDrone, setSelectedDrone] = useState(null);
 
-  const [token, setToken, deleteToken] = useCookies(['mr-token']);
+  const [token, setToken, deleteToken] = useCookies(['user-token']);
 
-
-
- 
   const droneClicked = drone => {
     setSelectedDrone(drone);
   }
 
- 
 
+  useEffect(() => {
 
-  CallData(setDrone, token['mr-token']);
+      const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
+          
+        API.getUpdateAllDrones(setDrone, token['user-token'])
 
+                            
+        }, 100)
+      
+        return () => clearInterval(intervalId); //This is important
+    
+  }, [token, useState])
+  
 
   useEffect(()=>{
-    if(!token['mr-token']) window.location.href = '/';
+    if(!token['user-token']) window.location.href = '/';
   }, [token])
 
   
   const logOutUser = () => {
-    deleteToken(['mr-token']);
+    deleteToken(['user-token']);
   }
 
-  const displayInfo = ()=> {
-    console.log("info ka ka");
-
-  }
-  
- 
 
   return (
-    <div className="App">
-      
-  
+    <AppBack>
 
-    <header className="App-header">
-        
-        <h1 ><img src={icon}  alt="drone image" height={75} width={75} ></img>Multi-Drone</h1>
-        {/* <FontAwesomeIcon icon={faInfoCircle} onClick={displayInfo}/>  */}
-        <FontAwesomeIcon icon={faSignOutAlt} onClick={logOutUser}/>
-        <Example/>
-      </header>
-      {/* <header>hello</header> */}
+      <AppHeader>
+          <h1 ><img src={icon}  alt="drone" height={75} width={75} ></img>Multi-Drone</h1>
+          <FontAwesomeIcon icon={faSignOutAlt} onClick={logOutUser}/>
+          <AppInfo/>
+      </AppHeader>
 
- 
-      
-      
+      <RowTable>
+          <LeftSide>
+              <DroneList drones={drones} droneClicked={droneClicked}/>
+          </LeftSide>
 
+          <Middle >
+            <MyMap drones={drones} drone={selectedDrone} />
+          </Middle>
 
-      <div className="row">
-
-        <div className="list_of_drones" >
-         
-          <DroneList drones={drones} droneClicked={droneClicked}/>
-        </div>
-
-        <div className="map" >
-          <MyMap drones={drones} drone={selectedDrone} />
-        </div>
-
-        <div className="details" >
-            {/* <QueryClientProvider client={queryClient}> */}
+          <RightSide>
             <br/>
-            <DroneDetails drone={selectedDrone}/>
-            {/* </QueryClientProvider> */}
+              <DroneDetails drone={selectedDrone}/>
             <br/>
-          <OptionsMenu  drone={selectedDrone}/>
-        </div>
+            <br/>
+              <ControlOptions  drone={selectedDrone}/>
+          </RightSide>
 
-      </div>
+      </RowTable>
 
-
-    </div>
+    </AppBack>
     
-  
-
-   
   );
 }
-
-

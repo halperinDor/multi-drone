@@ -3,7 +3,7 @@ import { Button, Modal} from 'react-bootstrap';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function Example() {
+function AppInfo() {
     const [show, setShow] = useState(false);
   
     const handleClose = () => setShow(false);
@@ -38,4 +38,4 @@ function Example() {
     );
   }
   
-  export default Example;
+  export default AppInfo;

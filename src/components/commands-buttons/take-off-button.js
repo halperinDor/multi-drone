@@ -3,25 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
-import { COMMANDSAPI } from './commands-service'
+import { API } from '../../rest-api-service';
 import { useCookies } from 'react-cookie';
 
 
 export default function TakeOffButton(props){
 
-    const [token] = useCookies(['mr-token']);
+    const [token] = useCookies(['user-token']);
 
-    var name = "";
+    var droneName = "";
 
-  
-    if(props.name){
-        var name = props.name
-        //console.log("my name is: ",name);
-    }
+    props.name? droneName = props.name: droneName=null;
 
 
-    const takeOffCommand = props => evt => {
-        COMMANDSAPI.sendToDrone(name, "Takeoff", value, token['mr-token'])
+    const setTakeOffCommand = props => evt => {
+        API.sendToDrone(droneName, "Takeoff", value, token['user-token'])
 
     }
 
@@ -44,7 +40,7 @@ export default function TakeOffButton(props){
                             onChange={handleInputChange}
                         ></input>
                     </Col>
-                    <Button variant="success" onClick={takeOffCommand()}>SEND</Button>    
+                    <Button variant="success" onClick={setTakeOffCommand()}>SEND</Button>    
                 </Form.Row> 
             </Form>
         </div>

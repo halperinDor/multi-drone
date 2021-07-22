@@ -3,39 +3,31 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
 import Button from 'react-bootstrap/Button'
-import { COMMANDSAPI } from './commands-service'
+import { API } from '../../rest-api-service';
 import { Form } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 
 
 export default function ModeButton(props){
 
-  const [token] = useCookies(['mr-token']);
+  const [token] = useCookies(['user-token']);
+
+  var droneName = "";
+
+  props.name? droneName = props.name: droneName=null;
 
 
- var name = "";
+  const setModeCommand = props => evt => {
 
-  
-  if(props.name){
-    var name = props.name
-    //console.log("my name is: ",name);
+        API.sendToDrone(droneName, value, 0, token['user-token'])
+      
   }
 
-  //console.log("new name = ", name);
- 
+  const [value,setValue]=useState('');
 
-
-    const modeCommand = props => evt => {
-
-        COMMANDSAPI.sendToDrone(name, value, -1, token['mr-token'])
-      
-    }
-
-    const [value,setValue]=useState('');
-
-    const handleSelect=(e)=>{
+  const handleSelect=(e)=>{
       setValue(e)
-    }
+  }
 
     
     return (
@@ -57,7 +49,7 @@ export default function ModeButton(props){
                         <Dropdown.Item eventKey="STABILIZE">STABILIZE</Dropdown.Item>
                 </DropdownButton>
                 
-              <Button  variant="success" onClick={modeCommand()} >SEND</Button>{' '}
+              <Button  variant="success" onClick={setModeCommand()} >SEND</Button>{' '}
             </Form.Row>
       </Form>
       </div>

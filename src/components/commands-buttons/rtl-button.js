@@ -1,28 +1,22 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button'
-import { COMMANDSAPI } from './commands-service'
 import { useCookies } from 'react-cookie';
-
+import { API } from '../../rest-api-service';
 
 export default function RTLButton(props){
 
-    const [token] = useCookies(['mr-token']);
+    const [token] = useCookies(['user-token']);
 
-    var name = "";
+    var droneName = "";
 
-  
-  if(props.name){
-    var name = props.name
-    //console.log("my name is: ",name);
-  }
+    props.name? droneName = props.name: droneName=null;
 
-
-    const rtlCommand = props => evt => {
-        COMMANDSAPI.sendToDrone(name, "RTL", -1, token['mr-token'])
+    const setRtlCommand = props => evt => {
+        API.sendToDrone(droneName, "RTL", 0, token['user-token'])
     }
 
-    if(!COMMANDSAPI.IsOn(props.arm)){
+    if(!props.arm){
 
         return (
             <div>
@@ -35,7 +29,7 @@ export default function RTLButton(props){
     }
     return (
         <div>
-            <Button variant="success" onClick={rtlCommand()} style={{cursor: "pointer"}}>
+            <Button variant="success" onClick={setRtlCommand()} style={{cursor: "pointer"}}>
             RTL
             </Button>
         </div>

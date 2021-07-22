@@ -7,12 +7,9 @@ import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 
-//export const TokenContext = createContext(null);
 
 function Router(){
 
-  //const TOKEN = "aad9d647bf86fff01778571c1e02fb6ff62fceaf";
-  //const [token, setToken] = useState('');
  
   return(
     <React.StrictMode>
