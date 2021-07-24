@@ -1,15 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import ArmButton from './commands-buttons/arm-button';
 import ModeButton from './commands-buttons/mode-button'
-import TakeOffButton from './commands-buttons/take-off-button'
-import LandButton from './commands-buttons/land-button'
-import RTLButton from './commands-buttons/rtl-button'
-import StartMission from './commands-buttons/mission-buttons/start-mission';
-import StopMission from './commands-buttons/mission-buttons/stop-mission';
-import CleanMission from './commands-buttons/mission-buttons/clean-mission';
-import { useCookies } from 'react-cookie';
+import TakeOffButton from './commands-buttons/take-off-button';
 import { API } from '../rest-api-service';
 import styled from 'styled-components';
+import ArmOnButton from './commands-buttons/arm-on-button';
+import ArmOffButton from './commands-buttons/arm-off-button';
+import StartMissionButton from './commands-buttons/start-mission';
+import { useCookies } from 'react-cookie';
 
 
 const ControlBack = styled.div`
@@ -36,6 +33,7 @@ function ControlOptions(props){
 
     const [drone, setdrone] = useState([]);
     const [token] = useCookies('user-token');
+ 
 
     var id = "";
 
@@ -52,18 +50,18 @@ function ControlOptions(props){
 
         const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
           
-            API.getUpdateOneDrone(setdrone, url, token['user-token'])
+            API.getUpdateOneDrone(setdrone, url, props.token)
                              
         }, 100)
       
         return () => clearInterval(intervalId); //This is important
         }
        
-    }, [url, id, token, useState])
+    }, [url, id, props.token])
 
 
 
-    if(drone.length !== 0){
+    if(drone.length !== 0 && props.token){
 
 
 
@@ -72,19 +70,18 @@ function ControlOptions(props){
                 
                                     <tbody>
                                         <tr><SecTitle>Commands</SecTitle><SecTitle>Mission Commands</SecTitle></tr>
-                                        <tr><td><ArmButton arm={drone.arm} name={drone.name}/></td>
-                                        <td><StartMission arm={drone.arm} name={drone.name}/></td></tr>
-                                        <tr><td><LandButton arm={drone.arm} name={drone.name} /></td>
-                                            <td><StopMission arm={drone.arm} name={drone.name} /></td></tr>
-                                        <tr><td><RTLButton arm={drone.arm} name={drone.name}/></td>
-                                            <td><CleanMission arm={drone.arm} name={drone.name}/></td></tr>
-                                        <tr><TakeOffButton takeoff={drone.arm} name={drone.name}/></tr>
-                                        <tr><ModeButton mode={drone.alt} name={drone.name}/></tr>
+                                        <tr><td><ArmOffButton arm={drone.arm} command_name={"Arm"} button_name={"ARM"} drone_name={drone.name} token={token['user-token']} variant={"success"}/></td>
+                                        <td><StartMissionButton arm={drone.arm} command_name={"mission: start"} button_name={"Start Mission"} drone_name={drone.name} token={token['user-token']} variant={"primary"}/></td></tr>
+                                        <tr><td><ArmOnButton arm={drone.arm} command_name={"LAND"} button_name={"LAND"} drone_name={drone.name} token={token['user-token']} variant={"success"}/></td>
+                                            <td><ArmOnButton arm={drone.arm} command_name={"mission: stop"} button_name={"Stop Mission"} drone_name={drone.name} token={token['user-token']} variant={"primary"}/></td></tr>
+                                        <tr><td><ArmOnButton arm={drone.arm} command_name={"RTL"} button_name={"RTL"} drone_name={drone.name} token={token['user-token']} variant={"success"}/></td>
+                                            <td><ArmOffButton arm={drone.arm} command_name={"mission: clean"} button_name={"Clean Mission"} drone_name={drone.name} token={token['user-token']} variant={"primary"}/></td></tr>
+                                        <tr><TakeOffButton takeoff={drone.arm} name={drone.name} token={token['user-token']}/></tr>
+                                        <tr><ModeButton mode={drone.alt} name={drone.name} token={token['user-token']}/></tr>
                                         
                                     </tbody>
                                 </table>):null
              }
-
 
             </ControlBack>)
 

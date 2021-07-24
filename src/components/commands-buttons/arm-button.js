@@ -1,19 +1,17 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button'
-import { useCookies } from 'react-cookie';
 import { API } from '../../rest-api-service';
 
 export default function ArmButton(props){
 
-    const [token] = useCookies(['user-token'])
 
     var droneName = "";
 
     props.name? droneName = props.name: droneName=null;
 
     const setArmCommand = props => evt => {
-        API.sendToDrone(droneName, "Arm", 0, token['user-token']);
+        API.sendToDrone(droneName, "Arm", 0,props.token);
         // API.myFunc(multiPolygon, token['user-token']);
     }
 

@@ -38,21 +38,18 @@ export class API {
     }
 
 
-    static async sendMissonToDrone(droneName, mission, token){
+    static async sendMissonToDrone(droneName, coord, altitud,token){
 
     
-        var missionString = JSON.stringify(mission);
+        var missionString = JSON.stringify(coord);
 
-        var data = JSON.stringify({name: droneName, coordinates: missionString});
+        var data = JSON.stringify({name: droneName,alt: altitud, coordinates: missionString});
 
-        var ids =JSON.stringify(mission, ['id']).replace(/[{}]/g, '').replace(/[[]/g, '').replace(/[\]']+/g, '').replace(/["]/g, '');
+        var ids =JSON.stringify(coord, ['id']).replace(/[{}]/g, '').replace(/[[]/g, '').replace(/[\]']+/g, '').replace(/["]/g, '');
 
        
         if (ids !== ""){
 
-            alert("Mission "+ ids+ " was successfully sent to "+ droneName+ " drone!");
-
-          
             try {
                 const resp = await fetch(backEndUrl+"/api/missions/", {
                     method: 'POST',
@@ -66,13 +63,14 @@ export class API {
             } catch (error) {
                 return console.log(error);
             }
+            
         }
 
     }
 
 
     static getUpdateAllDrones(setDrone,token){
-        fetch(`http://127.0.0.1:8000/api/drones/`, {
+        fetch(backEndUrl+"/api/drones/", {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',

@@ -4,20 +4,20 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import { API } from '../../rest-api-service';
-import { useCookies } from 'react-cookie';
 
 
 export default function TakeOffButton(props){
 
-    const [token] = useCookies(['user-token']);
 
     var droneName = "";
+    var token = "";
 
     props.name? droneName = props.name: droneName=null;
+    props.token? token = props.token: token=null;
 
 
     const setTakeOffCommand = props => evt => {
-        API.sendToDrone(droneName, "Takeoff", value, token['user-token'])
+        API.sendToDrone(droneName, "Takeoff", value, token)
 
     }
 

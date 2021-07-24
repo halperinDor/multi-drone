@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import DroneList from './components/drone-list';
-import DroneDetails from './components/drone-data';
+import DroneData from './components/drone-data';
 import MyMap from './components/my-map';
 import ControlOptions from './components/control-options';
 import icon from './static/drone.jpg'
@@ -90,7 +90,7 @@ export default function App() {
       
         return () => clearInterval(intervalId); //This is important
     
-  }, [token, useState])
+  }, [token])
   
 
   useEffect(()=>{
@@ -99,6 +99,7 @@ export default function App() {
 
   
   const logOutUser = () => {
+    setToken(['user-token']);
     deleteToken(['user-token']);
   }
 
@@ -118,15 +119,15 @@ export default function App() {
           </LeftSide>
 
           <Middle >
-            <MyMap drones={drones} drone={selectedDrone} />
+            <MyMap drones={drones} drone={selectedDrone} token={token['user-token']}/>
           </Middle>
 
           <RightSide>
             <br/>
-              <DroneDetails drone={selectedDrone}/>
+              <DroneData drone={selectedDrone} token={token['user-token']}/>
             <br/>
             <br/>
-              <ControlOptions  drone={selectedDrone}/>
+              <ControlOptions  drone={selectedDrone} token={token['user-token']}/>
           </RightSide>
 
       </RowTable>

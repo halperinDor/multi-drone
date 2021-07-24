@@ -51,7 +51,7 @@ table-layout: auto;
 width: 100%;  
 `
 
-function DroneDetails(props){
+function DroneData(props){
 
     const [drone, setdrone] = useState([]);
     const [token] = useCookies(['user-token']);
@@ -88,7 +88,7 @@ function DroneDetails(props){
 
         }
        
-    }, [url,id,token,useState])
+    }, [url,id,token])
 
 
 
@@ -204,4 +204,4 @@ function DroneDetails(props){
  
 }
 
-export default DroneDetails;
+export default DroneData;

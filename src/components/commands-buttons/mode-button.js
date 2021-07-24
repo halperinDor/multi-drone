@@ -5,21 +5,22 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Button from 'react-bootstrap/Button'
 import { API } from '../../rest-api-service';
 import { Form } from 'react-bootstrap';
-import { useCookies } from 'react-cookie';
 
 
 export default function ModeButton(props){
 
-  const [token] = useCookies(['user-token']);
-
   var droneName = "";
+  var token = "";
 
   props.name? droneName = props.name: droneName=null;
+  props.token? token =props.token: props.token=null;
 
 
+  const modes = ["AUTO","GUIDED","POSHOLD", "LOITER", "STABILIZE" ];
+  
   const setModeCommand = props => evt => {
 
-        API.sendToDrone(droneName, value, 0, token['user-token'])
+        API.sendToDrone(droneName, value, 0, token)
       
   }
 
@@ -42,11 +43,10 @@ export default function ModeButton(props){
                 variant="success"
                 onSelect={handleSelect}
                 >
-                        <Dropdown.Item eventKey="AUTO">AUTO</Dropdown.Item>
-                        <Dropdown.Item eventKey="GUIDED">GUIDED</Dropdown.Item>
-                        <Dropdown.Item eventKey="POSHOLD">POSHOLD</Dropdown.Item>
-                        <Dropdown.Item eventKey="LOITER">LOITER</Dropdown.Item>
-                        <Dropdown.Item eventKey="STABILIZE">STABILIZE</Dropdown.Item>
+                  {modes.map(mode => {
+                    return(
+                      <Dropdown.Item eventKey={mode}>{mode}</Dropdown.Item>)
+                  })}
                 </DropdownButton>
                 
               <Button  variant="success" onClick={setModeCommand()} >SEND</Button>{' '}

@@ -1,17 +1,19 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, FeatureGroup, useMapEvents } from 'react-leaflet';
-import L, {on, onClick} from 'leaflet';
+import React, { useEffect, useState, useCallback} from 'react';
+import { MapContainer, TileLayer, Marker, Popup, FeatureGroup, useMapEvents } from 'react-leaflet';
 import './components.css';
 import "leaflet-draw/dist/leaflet.draw.css";
+// import "leaflet/dist/leaflet.css";
 import { EditControl } from "react-leaflet-draw";
 import { API } from '../rest-api-service'
 import { useCookies } from 'react-cookie';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+import MissionSetAlt from './mission-alt';
+
 
 const MapBack = styled.div`
   float: left;
-  width: 72%;
+  width: 75%;
   padding: 10px;
   background-color: rgb(61, 10, 61);
   //background-color:rgb(9, 89, 114);
@@ -21,7 +23,7 @@ const MapBack = styled.div`
 `
 const MissionBack = styled.div`
   float:left;
-  width: 28%;
+  width: 25%;
   padding: 10px;  
   background-color: rgb(61, 10, 61);
  // background-color:rgb(9, 89, 114);
@@ -46,10 +48,10 @@ const MissionContainer = styled.td`
 const MissionText = styled.pre`
   color:black;
   background-color: white;
-  height: 620px;
+  height: 600px;
   scroll-margin-left: auto;
   overflow-y: auto; 
-  border-radius: 20%;
+  border-radius: 10%;
   border: none;
   border-radius: 12px;
 `
@@ -57,7 +59,7 @@ const SecTitle = styled.span`
     text-shadow: 0 0 3px #331010, 0 0 5px #0000FF;
 `
 
-const center = [32.0734999, 34.7838999]
+
 const zoom = 35
 
 // const missionColor = { color: 'red' }
@@ -112,8 +114,8 @@ function DisplayPosition({ map }) {
   return (
 
     <p >
-      <SecTitle>Map Center: [latitude: {position.lat.toFixed(5)}, longitude: {position.lng.toFixed(5)}]{' '}
-      <Button onClick={onClick} variant="info" >Reset to my location</Button>
+      <SecTitle>Map Center: [latitude: {position.lat.toFixed(8)}, longitude: {position.lng.toFixed(8)}]{' '}
+      <Button onClick={onClick} variant="info" >Go to my location</Button>
       </SecTitle>
     </p>
   )
@@ -123,6 +125,8 @@ function DisplayPosition({ map }) {
  
 export default  function MyMap(props){
 
+  const center = [32.0734999, 34.7838999]
+
   const [mapLayers, setMapLayers] = useState([]);
 
   const [map, setMap] = useState(null);
@@ -131,9 +135,12 @@ export default  function MyMap(props){
 
   const [drone, setdrone] = useState([]);
 
+ // console.log("hello world!")
+
 
   //when create path: 
   const _onCreate = e => {
+    //console.log("Create it: ",e);
 
     const { layerType, layer} = e;
 
@@ -151,38 +158,37 @@ export default  function MyMap(props){
   };
 
   //edit path
-  const _onEdited = e => {
+  const _onEdited = (e) => {
+    //console.log("Edit: ",e);
  
-    const {
-       layers: {_layers},
+    // const {
+    //    layers: {_layers},
       
-    } = e; 
+    // } = e; 
 
-      Object.values(_layers).map( ({_leaflet_id, editing }) => {
-        setMapLayers( (layers) => 
-         layers.map( (l) => l.id --- _leaflet_id
-            ? { ...l, latlngs: {...editing.latLng} }
-            : l
-          )
-        );
-    });
+    //   Object.values(_layers).map( ({_leaflet_id, editing }) => {
+    //      setMapLayers( (layers) => 
+    //      layers.map( (l) => l.id === _leaflet_id )? 
+    //       {...l, latlngs: {...editing.latLng[0]} }: l)
+    // });
 
   };
 
   //delete path
   const _onDeleted= e => {
+    //console.log("delete it: ",e);
 
     const { layers: {_layers} } =e;
 
     Object.values(_layers).map(({_leaflet_id})=> {
-      setMapLayers( (layers) => layers.filter((l) => l.id !== _leaflet_id));
+      return setMapLayers( (layers) => layers.filter((l) => l.id !== _leaflet_id));
 
     })
 
   }
 
 
-    function displayMap(){
+  function displayMap(){
 
       return(
         <MapContainer
@@ -209,7 +215,8 @@ export default  function MyMap(props){
                 circle: false, 
                 circlemarker:false,
                 marker: false,
-                polygon: false,
+                polygon:false,
+                // polygon: false,
                 
                 }}
                 />
@@ -272,12 +279,12 @@ export default  function MyMap(props){
         return () => clearInterval(intervalId); //This is important
         }
        
-    }, [url, useState])
+    }, [url, token, props.drone])
   
   
   
 
-   const MarkerPlace =(props, map) =>{
+  const MarkerPlace =(props, map) =>{
 
     var dronePlace = "";
   
@@ -289,6 +296,8 @@ export default  function MyMap(props){
      
     }
   }
+
+
 
   // var popup = L.popup();
 
@@ -309,9 +318,10 @@ export default  function MyMap(props){
 
         <MapBack>
         
-        {map,  props.drone ? <table>
+        {map &&  props.drone ? <table>
                 <td><DisplayPosition map={map} /></td>
-                <td><Button onClick={() =>{MarkerPlace(props, map)}} variant="info">Reset to {props.drone.name} location</Button></td>
+                <td><Button onClick={() =>{MarkerPlace(props, map)}} variant="info">Go to {props.drone.name} location</Button></td>
+                {/* <td>Hello my friends!</td> */}
                 </table> : null}
           {displayMap()}
         </MapBack>
@@ -332,22 +342,34 @@ export default  function MyMap(props){
                       The Mission created so far on the map
                       <MissionText>
                       {JSON.stringify(mapLayers,0,2)
-                        .replace(/[{}]/g, '')
-                        .replace(/[[]/g, '')
-                        .replace(/[\]']+/g, '')
-                        .replace(/["]/g, '')
-                        .replace(/[,]/g, '    ')}
+                            .replace(/[{}]/g, '')
+                            .replace(/[[]/g, '')
+                            .replace(/[\]']+/g, '')
+                            .replace(/["]/g, '')
+                            .replace(/[,]/g, '    ')}
                       </MissionText>
                     </MissionContainer>
                     </tr>
                     <tr>
-                  
-                  <Button 
-                      onClick={(e) => {
-                        API.sendMissonToDrone(props.drone.name, mapLayers, token['user-token']);
-                      }}>
-                        Send Mission
+                 
+                    <span>
+                     
+                        {/* // API.sendMissonToDrone(props.drone.name, mapLayers, token['user-token']); */}
+                        {/* {MissionSetAlt(props.drone.name ,mapLayers, token['user-token'])} */}
+                        <MissionSetAlt name={props.drone.name} coordinates={mapLayers} token={token['user-token']}/>
+                        {/* Hello World! */}
+                       
+                             
+                  <td/>
+                  <Button variant="secondary"
+                    onClick={(e)=>{
+                      setMapLayers([]) 
+                    }}>Clean Text
                   </Button>
+                 
+                      </span>
+                 
+          
                   
                   </tr>
                   

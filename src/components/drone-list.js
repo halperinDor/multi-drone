@@ -12,6 +12,7 @@ const HoverText = styled.p`
         cursor: pointer;
     }
 `
+
 const DroneListBack = styled.div`
     padding:3%;
     margin-right: 2%;
@@ -28,25 +29,26 @@ const ListTitle = styled.h2`
 `
 
 function DroneList(props){
-
  
     const droneClicked = drone => evt => {
         props.droneClicked(drone)
     }
 
+  
    
     return (<DroneListBack>
                  <ListTitle>Drones</ListTitle><br/>
                     {
-                        props.drones && props.drones.map( drone =>{
+                        
+                         props.drones && props.drones.map( drone =>{
                             return (
-                            // <div  key={drone.id}>
                             <HoverText onClick={droneClicked(drone)} >{drone.name}</HoverText>
                            
                             )
                         })
                     }
             </DroneListBack>)
+   
 }
 
 export default DroneList;
